@@ -15,11 +15,11 @@ Pada minggu ini saya belajar bagaimana cara set up project flutter menggunakan a
 
 screenshoot1= ./Assets/hotRealod&hotRestart.png
 screenshoot2= ./Assets/running1.png
-screenshoot2= ./Assets/running2.png
-screenshoot2= ./Assets/running3.png
-screenshoot2= ./Assets/running4.png
-screenshoot2= ./Assets/running5.png
-screenshoot2= ./Assets/testComplete.png
+screenshoot3= ./Assets/running2.png
+screenshoot4= ./Assets/running3.png
+screenshoot5= ./Assets/running4.png
+screenshoot6= ./Assets/running5.png
+screenshoot7= ./Assets/testComplete.png
 
 ## 3. Kendala yang Dihadapi & Solusinya
 - **Kendala**:
