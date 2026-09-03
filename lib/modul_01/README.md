@@ -44,3 +44,6 @@ screenshoot7= ./Assets/testComplete.png
 1. **Pilihan Native vs Flutter**: Flutter
 2. **Prinsip UI = f(state)**: Tampilan aplikasi (UI) ditentukan oleh kondisi/data aplikasi (State)
 3. **Pentingnya Conventional Commits**: Untuk memudahkan pemahaman antar programmer, karena menggunakan commit yg sesuai dengan seluruh programmer di dunia
+
+Alat Bantu Ai : Chat GPT 
+link : https://chatgpt.com/g/g-p-6a98e6af4c10819193886cdbc3cff569-matakuliah-pemrograman-web-bergerak/project
