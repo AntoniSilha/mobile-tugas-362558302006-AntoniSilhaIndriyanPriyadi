@@ -6,6 +6,7 @@ class Course {
   final int sks;
   final double progress; // progres silabus (0.0 - 1.0)
   final String room;
+  final String category;
 
   const Course({
     required this.code,
@@ -13,7 +14,8 @@ class Course {
     required this.lecturer,
     required this.sks,
     required this.progress,
-    this.room = 'Lab Komputer 3',
+    this.category = 'Teori',
+    this.room = 'Lab Komputer 3'
   });
 
   // Data dummy untuk bahan praktikum & testing
@@ -25,31 +27,53 @@ class Course {
         lecturer: 'Sepyan Purnama Kristanto',
         sks: 4,
         progress: 0.25,
-        room: 'Lab Komputer 3',
+        room: 'Lab TUK',
+        category: 'Praktikum',
       ),
       Course(
         code: 'TRPL502',
-        name: 'Arsitektur Perangkat Lunak',
-        lecturer: 'Tim Dosen TRPL',
-        sks: 3,
-        progress: 0.40,
-        room: 'Ruang Teori 201',
+        name: 'Pemrograman Web Lanjut',
+        lecturer: 'Devit Suwardiyanto,S.Si., M.T.',
+        sks: 4,
+        progress: 0.30,
+        room: 'Ruang Multimedia',
+        category: 'Praktikum',
       ),
       Course(
         code: 'TRPL503',
-        name: 'Manajemen Proyek Agile & DevOps',
-        lecturer: 'Tim Dosen TRPL',
-        sks: 3,
-        progress: 0.60,
-        room: 'Ruang Teori 104',
+        name: 'Basis Data Lanjut',
+        lecturer: 'Eka Mistiko Rini, S.Kom, M.Kom.',
+        sks: 4,
+        progress: 0.40,
+        room: 'LAB.PROGRAM 2',
+        category: 'Praktikum',
       ),
       Course(
         code: 'TRPL504',
-        name: 'Penjaminan Mutu Perangkat Lunak (QA)',
-        lecturer: 'Tim Dosen TRPL',
+        name: 'Rekayasa Kebutuhan Perangkat Lunak',
+        lecturer: 'Eka Novita Sari, S. Kom., M.Kom.',
         sks: 2,
+        progress: 0.20,
+        room: 'G7.10',
+        category: 'Teori',
+      ),
+      Course(
+        code: 'TRPL505',
+        name: 'Interoperabilitas',
+        lecturer: 'Ahmad Ripaldi, S.Kom.',
+        sks: 4,
         progress: 0.15,
         room: 'Lab Jaringan',
+        category: 'Praktikum',
+      ),
+      Course(
+        code: 'TRPL506',
+        name: 'DummySKS',
+        lecturer: 'LoremIpsum',
+        sks: 26,
+        progress: 0.15,
+        room: 'G1.01',
+        category: 'Teori',
       ),
     ];
   }

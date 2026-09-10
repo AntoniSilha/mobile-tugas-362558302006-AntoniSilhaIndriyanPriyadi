@@ -4,15 +4,18 @@ import 'package:flutter/material.dart';
 class HeaderBanner extends StatelessWidget {
   final String studentName;
   final String nim;
+  final int totalSks;
 
   const HeaderBanner({
     super.key,
-    this.studentName = 'Mahasiswa TRPL',
-    this.nim = '362355401xxx',
+    this.studentName = 'Antoni Silha Indriyan Priyadi',
+    this.nim = '362558302006',
+    this.totalSks = 0,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool isExceeded = totalSks > 24;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -63,15 +66,43 @@ class HeaderBanner extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           // Wrap mencegah overflow pada layar sempit atau font besar.
-          const Wrap(
+          Wrap(
             spacing: 8,
             runSpacing: 8,
             children: [
-              _StatPill(icon: Icons.task_alt, label: '4 Matakuliah'),
-              _StatPill(icon: Icons.grade, label: 'IPK 3.85'),
-              _StatPill(icon: Icons.calendar_month, label: '100% Hadir'),
+              const _StatPill(icon: Icons.task_alt, label: '4 Matakuliah'),
+              _StatPill(icon: Icons.bookmark_add_outlined, label: '$totalSks SKS Diambil'),
+              const _StatPill(icon: Icons.grade, label: 'IPK 3.85'),
+              const _StatPill(icon: Icons.calendar_month, label: '100% Hadir'),
             ],
           ),
+          if (isExceeded) ...[
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.red.shade700,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.red.shade300, width: 1),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.warning_amber_rounded, color: Colors.white, size: 22),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Peringatan: Total SKS melebihi batas maksimal 24 SKS per semester!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ],
       ),
     );
