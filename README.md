@@ -14,7 +14,7 @@ Panduan interaktif lengkap: [Portal Codelabs TRPL Poliwangi](https://codelabs-po
 
 | Informasi | Data Mahasiswa                                         |
 |---|--------------------------------------------------------|
-| **Nama Lengkap** | Mahasiswa TRPL Poliwangi Antoni Silha Indriyan Priyadi |
+| **Nama Lengkap** | Antoni Silha Indriyan Priyadi |
 | **NIM** | 362558302006                                           |
 | **Kelas / Angkatan** | TRPL 2E / 2025                                         |
 | **Dosen Pengampu** | Sepyan Purnama Kristanto, M.Kom.                       |

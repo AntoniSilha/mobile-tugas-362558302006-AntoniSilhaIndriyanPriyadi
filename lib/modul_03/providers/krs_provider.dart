@@ -1,40 +1,53 @@
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+
 import '../models/krs_course.dart';
 
-// StateNotifier untuk mengelola daftar KRS yang diambil mahasiswa
+// StateNotifier untuk mengelola daftar KRS mahasiswa
 class KrsNotifier extends StateNotifier<List<KrsCourse>> {
   KrsNotifier() : super(KrsCourse.getInitialCourses());
 
-  // Menambah mata kuliah ke dalam KRS dengan validasi duplikasi & kuota SKS
+  // Menambahkan mata kuliah ke KRS
   bool tambahMataKuliah(KrsCourse course) {
     // 1. Cek duplikasi kode mata kuliah
-    final exists = state.any((c) => c.code.toUpperCase() == course.code.toUpperCase());
+    final exists = state.any(
+          (c) => c.code.toUpperCase() == course.code.toUpperCase(),
+    );
+
     if (exists) return false;
 
     // 2. Cek batas maksimal 24 SKS per semester
     if (totalSks + course.sks > 24) return false;
 
-    // 3. Emit state baru secara immutable
+    // 3. Perbarui state secara immutable
     state = [...state, course];
+
     return true;
   }
 
-  // Menghapus mata kuliah dari KRS
+  // Menghapus mata kuliah berdasarkan kode
   void hapusMataKuliah(String code) {
-    state = state.where((c) => c.code != code).toList();
+    state = state
+        .where((c) => c.code.toUpperCase() != code.toUpperCase())
+        .toList();
   }
 
-  // Menghitung total SKS saat ini
-  int get totalSks => state.fold(0, (sum, c) => sum + c.sks);
+  // Menghitung total SKS
+  int get totalSks {
+    return state.fold(0, (sum, course) => sum + course.sks);
+  }
 }
 
-// Provider global untuk KRS
-final krsProvider = StateNotifierProvider<KrsNotifier, List<KrsCourse>>((ref) {
+// Provider global untuk daftar KRS
+final krsProvider =
+StateNotifierProvider<KrsNotifier, List<KrsCourse>>((ref) {
   return KrsNotifier();
 });
 
-// Provider terkomputasi (computed provider) untuk total SKS
+// Computed Provider untuk menghitung total SKS
 final totalSksProvider = Provider<int>((ref) {
   final courses = ref.watch(krsProvider);
-  return courses.fold(0, (sum, c) => sum + c.sks);
+
+  return courses.fold(0, (sum, course) => sum + course.sks);
 });

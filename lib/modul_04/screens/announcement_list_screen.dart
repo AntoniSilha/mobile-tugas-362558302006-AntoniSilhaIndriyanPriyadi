@@ -1,13 +1,13 @@
+
 import 'package:flutter/material.dart';
 import '../models/announcement.dart';
 import '../services/announcement_api.dart';
 import 'announcement_detail_screen.dart';
 
-
 class AnnouncementListScreen extends StatefulWidget {
   const AnnouncementListScreen({super.key, this.api});
 
-  /// Dapat disuntikkan dari luar (widget test atau demo offline).
+  // Dapat disuntikkan dari luar (widget test atau demo offline).
   final AnnouncementApi? api;
 
   @override
@@ -29,7 +29,6 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
   late Future<List<Announcement>> _futurePengumuman;
 
   String _kategoriTerpilih = 'Semua';
-  int _percobaan = 0;
 
   @override
   void initState() {
@@ -42,11 +41,12 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
     _api.tutup();
     super.dispose();
   }
+
+  // Memuat ulang data pengumuman
   Future<void> _muatUlang() async {
-    setState(() {
-      _percobaan++;
-    });
-    final Future<List<Announcement>> futureBaru = _api.ambilPengumuman();
+    final Future<List<Announcement>> futureBaru =
+    _api.ambilPengumuman();
+
     setState(() {
       _futurePengumuman = futureBaru;
     });
@@ -54,23 +54,28 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
     try {
       await futureBaru;
     } catch (_) {
-      // Error sudah ditangani FutureBuilder lewat `snapshot.hasError`.
-      // Blok catch ini hanya mencegah "unhandled exception" dan memastikan
-      // RefreshIndicator berhenti berputar.
+      // Error ditangani oleh FutureBuilder melalui snapshot.hasError.
+      // Catch ini memastikan RefreshIndicator berhenti berputar.
     }
-
   }
 
+  // Memilih kategori pengumuman
   void _pilihKategori(String kategori) {
     if (kategori == _kategoriTerpilih) return;
-    setState(() => _kategoriTerpilih = kategori);
+
+    setState(() {
+      _kategoriTerpilih = kategori;
+    });
   }
 
+  // Membuka halaman detail pengumuman
   void _bukaDetail(Announcement announcement) {
-    Navigator.push(
+    Navigator.push<void>(
       context,
       MaterialPageRoute<void>(
-        builder: (_) => AnnouncementDetailScreen(announcement: announcement),
+        builder: (_) => AnnouncementDetailScreen(
+          announcement: announcement,
+        ),
       ),
     );
   }
@@ -96,19 +101,22 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
             child: FutureBuilder<List<Announcement>>(
               future: _futurePengumuman,
               builder: (context, snapshot) {
-                // ── Keadaan 1: LOADING ────────────────────────────────
+                // Keadaan 1: Loading
                 if (snapshot.connectionState != ConnectionState.done) {
                   return _buildMemuat();
                 }
-                // ── Keadaan 2: ERROR ─────────────────────────────────
+
+                // Keadaan 2: Error
                 if (snapshot.hasError) {
                   return _buildGagal(snapshot.error!);
                 }
-                // ── Keadaan 3 & 4: KOSONG / BERHASIL ─────────────────
+
+                // Keadaan 3 dan 4: Kosong / Berhasil
                 final List<Announcement> semua =
                     snapshot.data ?? const <Announcement>[];
 
-                final List<Announcement> tampil = _kategoriTerpilih == 'Semua'
+                final List<Announcement> tampil =
+                _kategoriTerpilih == 'Semua'
                     ? semua
                     : semua
                     .where(
@@ -118,7 +126,10 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
                 )
                     .toList(growable: false);
 
-                if (tampil.isEmpty) return _buildKosong();
+                if (tampil.isEmpty) {
+                  return _buildKosong();
+                }
+
                 return _buildDaftar(tampil);
               },
             ),
@@ -127,6 +138,8 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
       ),
     );
   }
+
+  // Widget filter kategori
   Widget _buildBarisFilter() {
     return SizedBox(
       height: 56,
@@ -138,6 +151,7 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
         itemBuilder: (context, index) {
           final String kategori = _kategori[index];
           final bool terpilih = kategori == _kategoriTerpilih;
+
           return ChoiceChip(
             label: Text(kategori),
             selected: terpilih,
@@ -147,11 +161,15 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
       ),
     );
   }
+
+  // Tampilan loading
   Widget _buildMemuat() {
     return const Center(
       child: CircularProgressIndicator(),
     );
   }
+
+  // Tampilan ketika gagal memuat data
   Widget _buildGagal(Object error) {
     return Center(
       child: Padding(
@@ -189,6 +207,8 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
       ),
     );
   }
+
+  // Tampilan ketika tidak ada pengumuman
   Widget _buildKosong() {
     return const Center(
       child: Padding(
@@ -219,6 +239,8 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
       ),
     );
   }
+
+  // Daftar pengumuman
   Widget _buildDaftar(List<Announcement> announcements) {
     return RefreshIndicator(
       onRefresh: _muatUlang,
@@ -228,6 +250,7 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final Announcement announcement = announcements[index];
+
           return Card(
             child: ListTile(
               contentPadding: const EdgeInsets.all(16),
@@ -239,13 +262,9 @@ class _AnnouncementListScreenState extends State<AnnouncementListScreen> {
               ),
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  announcement.category,
-                ),
+                child: Text(announcement.category),
               ),
-              trailing: const Icon(
-                Icons.chevron_right,
-              ),
+              trailing: const Icon(Icons.chevron_right),
               onTap: () => _bukaDetail(announcement),
             ),
           );
